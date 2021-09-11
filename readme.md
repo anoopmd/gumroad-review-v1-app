@@ -1,5 +1,5 @@
-# Gumroad Review V1
-UI for the Gumroad Review V1
+# Gumroad Review App V1
+UI for the Gumroad Review App V1
 
 ## Dependencies
 * Npm >= v6

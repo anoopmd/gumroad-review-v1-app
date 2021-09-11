@@ -3,6 +3,7 @@
 const gulp = require('gulp');
 const connect = require('gulp-connect');
 const clean = require('gulp-rimraf');
+const concat = require('gulp-concat');
 
 const paths = {
   src: {
@@ -19,6 +20,27 @@ const paths = {
 gulp.task('clean', () => {
   return gulp.src([paths.dist.dir], {read: false})
     .pipe(clean());
+});
+
+// vendor files
+gulp.task('vendor', function() {
+  let vendorJsFiles = [
+    'node_modules/jquery/dist/jquery.min.js'
+  ];
+
+  let vendorCssFiles = [
+    'node_modules/bootstrap/dist/css/bootstrap.min.css'
+  ];
+
+  // build vendor js files
+  gulp.src(vendorJsFiles)
+    .pipe(concat('vendor.js'))
+    .pipe(gulp.dest(paths.dist.js));
+
+  // build vendor css files
+  gulp.src(vendorCssFiles)
+    .pipe(concat('vendor.css'))
+    .pipe(gulp.dest(paths.dist.css));
 });
 
 // copy index to public
@@ -44,7 +66,7 @@ gulp.task('watch', function () {
 
 // build
 gulp.task('build', ['clean'], () => {
-  gulp.start('index');
+  gulp.start('index', 'vendor');
 });
 
 // default task
