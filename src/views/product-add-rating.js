@@ -1,6 +1,9 @@
 window.Slick = window.Slick || {};
 
 Slick.ProductAddRatingView = function(options) {
+  this.options = options;
+  this.model = new Slick.ProductModel()
+
   this.render = function() {
     const self = this;
     const formData = {
@@ -26,6 +29,8 @@ Slick.ProductAddRatingView = function(options) {
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-outline-dark submit-review" disabled="true">Submit Review</button>
+              <span class="spinner-container"></span>
+              <div class="error-message text-danger">Oops! An error occured while submitting the review</div>
             </div>
           </div>
         </div>
@@ -34,6 +39,9 @@ Slick.ProductAddRatingView = function(options) {
     let $modal = $(modalHtml);
     $('body').append($modal);
     $modal.css("display", "block");
+
+    $errorMessage = $(".error-message");
+    $submitBtn = $("button.submit-review");
 
     const onRatingUpdate = (rating) => {
       formData.rating = rating;
@@ -48,9 +56,9 @@ Slick.ProductAddRatingView = function(options) {
 
     const updateSubmitButtonState = () => {
       if(formData.rating > 0 && formData.review.length) {
-        $modal.find(".submit-review").attr("disabled", false);
+        $submitBtn.attr("disabled", false);
       } else {
-        $modal.find(".submit-review").attr("disabled", true);
+        $submitBtn.attr("disabled", true);
       }
     }
 
@@ -75,9 +83,31 @@ Slick.ProductAddRatingView = function(options) {
     $modal.find(".btn-close").click(function() {
       $modal.remove();
     });
+
     $modal.find("textarea").on('change keyup paste', function(e) {
       let review = $(this).val();
       onReviewUpdate(review);
+    });
+
+    $submitBtn.click(function() {
+      $modal.find(".spinner-container").addClass("spinner");
+      $submitBtn.attr("disabled", true);
+      $submitBtn.text("Submiting");
+      $errorMessage.hide();
+
+      self.model
+        .addRating(self.options.productId, formData.rating, formData.review)
+        .then((data) => {
+          self.options.onNewRating(data);
+          $modal.remove();
+        })
+        .catch((err) => {
+          console.log(err);
+          $submitBtn.attr("disabled", false);
+          $submitBtn.text("Submit Review");
+          $errorMessage.show();
+          $modal.find(".spinner-container").removeClass("spinner");
+        });
     });
   }
 };

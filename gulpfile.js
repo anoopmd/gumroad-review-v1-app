@@ -111,7 +111,7 @@ gulp.task('connect-proxy', function(){
 // watch dirs for edits
 gulp.task('watch', function () {
   gulp.watch(['src/index.html'], ['index']);
-  gulp.watch(['src/index.scss'], ['sass']);
+  gulp.watch(['src/**/*.scss'], ['sass']);
   gulp.watch(['src/**/*.js'], ['app']);
 });
 

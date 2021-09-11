@@ -4,7 +4,7 @@ Slick.ProductView = function(options) {
   this.options = options;
 
   this.el = $('#' + options.id);
-  this.model = new Slick.ProductRatingModel();
+  this.model = new Slick.ProductModel();
 
   this.fetchById = function(id) {
     let self = this;
@@ -63,18 +63,24 @@ Slick.ProductView = function(options) {
       product.ratings.forEach((rating) => {
         productRatingListView.addRating({
           rating: rating.rating,
-          text: rating.comment
+          text: rating.review
         });
       });
     } else {
       this.el.find('.product-rating-list').html('No ratings were found');
     }
 
+    const onNewRating = (newRating) => {
+      console.log(newRating);
+    };
+
     this.el.find("button.add-review").click(function() {
-      const productAddRatingView = new Slick.ProductAddRatingView();
+      const productAddRatingView = new Slick.ProductAddRatingView({
+        productId: product.id,
+        onNewRating: onNewRating
+      });
       console.log('Clicked');
       productAddRatingView.render();
-      // $(modalHtml).appendTo('body').modal();
     });
   }
 };
