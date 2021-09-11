@@ -33,7 +33,7 @@ gulp.task('vendor', function() {
   let vendorJsFiles = [
     'node_modules/lodash/lodash.min.js',
     'node_modules/jquery/dist/jquery.min.js',
-    'node_modules/star-rating-svg/dist/jquery.star-rating-svg.js'
+    'node_modules/star-rating-svg/src/jquery.star-rating-svg.js'
   ];
 
   let vendorCssFiles = [

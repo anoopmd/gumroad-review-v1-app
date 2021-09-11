@@ -23,7 +23,7 @@
     "gulp-sass": "^5.0.0",
     "jquery": "^3.6.0",
     "lodash": "^4.17.21",
-    "star-rating-svg": "https://github.com/nashio/star-rating-svg.git"
+    "star-rating-svg": "https://github.com/anoopmd/star-rating-svg"
   },
   "devDependencies": {
     "gulp": "^3.9.1",

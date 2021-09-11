@@ -37,7 +37,7 @@ Slick.ProductView = function(options) {
               </div>
             </div>
             <div class="mt-4">
-              <button type="button" class="btn btn-outline-dark">Add Review</button>
+              <button type="button" class="btn btn-outline-dark add-review">Add Review</button>
             </div>
           </div>
         </div>
@@ -69,5 +69,12 @@ Slick.ProductView = function(options) {
     } else {
       this.el.find('.product-rating-list').html('No ratings were found');
     }
+
+    this.el.find("button.add-review").click(function() {
+      const productAddRatingView = new Slick.ProductAddRatingView();
+      console.log('Clicked');
+      productAddRatingView.render();
+      // $(modalHtml).appendTo('body').modal();
+    });
   }
 };

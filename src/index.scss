@@ -44,3 +44,32 @@ body div.root {
     }
   }
 }
+
+.modal.add-product-review-modal {
+  background: #00000061;
+
+  .modal-header {
+    border-bottom: none;
+
+    h5 {
+      font-weight: 600;
+    }
+  }
+
+  .modal-footer {
+    text-align: left;
+    border-top: none;
+    justify-content: flex-start;
+  }
+
+  .modal-body {
+    textarea {
+      border: none;
+
+      &:focus, &:focus-visible {
+        outline: none;
+        border: none;
+      }
+    }
+  }
+}
