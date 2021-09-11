@@ -54,6 +54,14 @@ gulp.task('index', () => {
     .pipe(connect.reload());
 });
 
+// app js
+gulp.task('app', () => {
+  gulp.src(['src/**/*.js'])
+    .pipe(concat('app.js'))
+    .pipe(gulp.dest(paths.dist.js))
+    .pipe(connect.reload());
+});
+
 // sass
 gulp.task('sass', function () {
   return gulp.src(paths.src.css)
@@ -75,11 +83,12 @@ gulp.task('connect', () => {
 gulp.task('watch', function () {
   gulp.watch(['src/index.html'], ['index']);
   gulp.watch(['src/index.scss'], ['sass']);
+  gulp.watch(['src/**/*.js'], ['app']);
 });
 
 // build
 gulp.task('build', ['clean'], () => {
-  gulp.start('index', 'sass', 'vendor');
+  gulp.start('index', 'app', 'sass', 'vendor');
 });
 
 // default task

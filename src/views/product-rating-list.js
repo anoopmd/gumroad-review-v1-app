@@ -1,0 +1,26 @@
+window.Gumroad = window.Gumroad || {};
+
+Gumroad.ProductRatingListView = function(options) {
+  this.options = options;
+  this.el = $('#' + options.id);
+
+  this.addRating = function(rating) {
+    let row = `
+      <div class="product-rating d-flex flex-row pt-2 pb-2">
+        <div class="me-4">
+          <div class="rating-stars"></div>
+        </div>
+        <div class="fw-bold me-2">${rating.rating}</div>
+        <div class="text-secondary">
+          ${rating.text}
+        </div>
+      </div>
+    `;
+    this.el.append(row);
+    this.el.find(".rating-stars").starRating({
+      starSize: 25,
+      totalStars: 5,
+      initialRating: rating.rating
+    });
+  }
+};
