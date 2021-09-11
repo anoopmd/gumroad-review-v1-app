@@ -4,10 +4,12 @@ const gulp = require('gulp');
 const connect = require('gulp-connect');
 const clean = require('gulp-rimraf');
 const concat = require('gulp-concat');
+const sass = require('gulp-sass')(require('node-sass'));
 
 const paths = {
   src: {
-    dir: 'src'
+    dir: 'src',
+    css: 'src/**/*.scss'
   },
   dist: {
     dir: 'public',
@@ -25,11 +27,13 @@ gulp.task('clean', () => {
 // vendor files
 gulp.task('vendor', function() {
   let vendorJsFiles = [
-    'node_modules/jquery/dist/jquery.min.js'
+    'node_modules/jquery/dist/jquery.min.js',
+    'node_modules/star-rating-svg/dist/jquery.star-rating-svg.js'
   ];
 
   let vendorCssFiles = [
-    'node_modules/bootstrap/dist/css/bootstrap.min.css'
+    'node_modules/bootstrap/dist/css/bootstrap.min.css',
+    'node_modules/star-rating-svg/src/css/star-rating-svg.css'
   ];
 
   // build vendor js files
@@ -50,6 +54,14 @@ gulp.task('index', () => {
     .pipe(connect.reload());
 });
 
+// sass
+gulp.task('sass', function () {
+  return gulp.src(paths.src.css)
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest(paths.dist.css))
+    .pipe(connect.reload());
+});
+
 // start test server and livereload
 gulp.task('connect', () => {
   connect.server({
@@ -62,11 +74,12 @@ gulp.task('connect', () => {
 // watch dirs for edits
 gulp.task('watch', function () {
   gulp.watch(['src/index.html'], ['index']);
+  gulp.watch(['src/index.scss'], ['sass']);
 });
 
 // build
 gulp.task('build', ['clean'], () => {
-  gulp.start('index', 'vendor');
+  gulp.start('index', 'sass', 'vendor');
 });
 
 // default task

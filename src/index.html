@@ -8,10 +8,47 @@
     <meta http-equiv="pragma" content="no-cache">
 
     <link rel="stylesheet" href="css/vendor.css"/>
+    <link rel="stylesheet" href="css/index.css"/>
   </head>
   <body>
-    Hello Gumroad
+    <main class="root">
+      <div class="product">
+        <h2 class="title">The Minimalist Entrepreneur</h2>
+        <div class="product-info d-flex flex-row pt-2 pb-2">
+          <h3 class="me-2">3.8</h3>
+          <div class="rating">
+            <div class="my-rating"></div>
+          </div>
+          <div class="flex-fill d-flex justify-content-end">
+            <button type="button" class="btn btn-outline-dark">Add Review</button>
+          </div>
+        </div>
+
+        <hr/>
+
+        <h4 class="mt-4">Reviews</h4>
+        <div class="product-rating d-flex flex-row pt-2 pb-2">
+          <div class="rating me-4">
+            <div class="my-rating"></div>
+          </div>
+          <div class="fw-bold me-2">3.8</div>
+          <div class="text-secondary">
+            book was full of fluff
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 
   <script src="js/vendor.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      $(".my-rating").starRating({
+        starSize: 25,
+        totalStars: 5,
+        initialRating: 4
+      });
+    });
+  </script>
 </html>
