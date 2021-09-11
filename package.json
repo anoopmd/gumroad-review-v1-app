@@ -28,6 +28,8 @@
     "gulp": "^3.9.1",
     "gulp-connect": "^5.7.0",
     "gulp-rimraf": "^1.0.0",
-    "node-sass": "^6.0.1"
+    "http-proxy-middleware": "^2.0.1",
+    "node-sass": "^6.0.1",
+    "yargs": "^15.4.1"
   }
 }

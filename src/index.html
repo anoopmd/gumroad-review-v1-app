@@ -40,30 +40,7 @@
       </div>
     </nav>
     <div class="root container-fluid">
-      <div class="product">
-        <div class="d-flex pb-4">
-          <div>
-            <img src="assets/images/the-minimalist-entrepreneur.jpg" width="200px"/>
-          </div>
-          <div class="flex-fill ms-4">
-            <h2 class="title">The Minimalist Entrepreneur</h2>
-            <div class="text-muted">How Great Founders Do More with Less</div>
-            <div class="product-info d-flex flex-row mt-4 pb-2">
-              <div class="me-2 rating-average">3.8</div>
-              <div class="rating">
-                <div class="my-rating"></div>
-              </div>
-            </div>
-            <div class="mt-5">
-              <button type="button" class="btn btn-outline-dark">Add Review</button>
-            </div>
-          </div>
-        </div>
-        <hr/>
-
-        <h6 class="mt-4 fw-bold">Reviews</h6>
-        <div id="product-rating-list"></div>
-      </div>
+      <div id="product-container"></div>
     </div>
   </body>
 
@@ -72,26 +49,10 @@
 
   <script>
     $(document).ready(function() {
-      const productRatingListView = new Gumroad.ProductRatingListView({
-        id: 'product-rating-list'
+      const productView = new Slick.ProductView({
+        id: 'product-container'
       });
-      productRatingListView.addRating({
-        rating: 4,
-        text: 'book was full of fluff'
-      });
-      productRatingListView.addRating({
-        rating: 3,
-        text: 'book was fluff'
-      });
-      productRatingListView.addRating({
-        rating: 5,
-        text: 'book was amazing'
-      });
-      $(".my-rating").starRating({
-        starSize: 20,
-        totalStars: 5,
-        initialRating: 4
-      });
+      productView.fetchById(1);
     });
   </script>
 </html>

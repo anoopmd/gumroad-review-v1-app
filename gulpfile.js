@@ -4,6 +4,8 @@ const gulp = require('gulp');
 const connect = require('gulp-connect');
 const clean = require('gulp-rimraf');
 const concat = require('gulp-concat');
+const proxy = require('http-proxy-middleware');
+const args = require('yargs').argv;
 const sass = require('gulp-sass')(require('node-sass'));
 
 const paths = {
@@ -87,6 +89,24 @@ gulp.task('connect', () => {
   });
 });
 
+// start test server and livereload + proxy ws calls
+gulp.task('connect-proxy', function(){
+  connect.server({
+    root: [paths.dist.dir],
+    livereload: true,
+    port: 8000,
+    middleware: function(connect, opt) {
+      return [
+        proxy.createProxyMiddleware('/api', {
+          target: args.proxy,
+          secure: false,
+          changeOrigin:true
+        })
+      ];
+    }
+  });
+});
+
 // watch dirs for edits
 gulp.task('watch', function () {
   gulp.watch(['src/index.html'], ['index']);
@@ -101,3 +121,4 @@ gulp.task('build', ['clean'], () => {
 
 // default task
 gulp.task('default', ['build', 'connect', 'watch']);
+gulp.task('start:proxy', ['build', 'connect-proxy', 'watch']);

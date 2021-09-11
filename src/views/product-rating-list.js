@@ -1,8 +1,8 @@
-window.Gumroad = window.Gumroad || {};
+window.Slick = window.Slick || {};
 
-Gumroad.ProductRatingListView = function(options) {
+Slick.ProductRatingListView = function(options) {
   this.options = options;
-  this.el = $('#' + options.id);
+  this.el = options.el || $('#' + options.id);
 
   this.addRating = function(rating) {
     let row = `
