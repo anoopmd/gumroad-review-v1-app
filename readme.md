@@ -3,7 +3,7 @@ UI for the Gumroad Review V1
 
 ## Dependencies
 * Npm >= v6
-* NodeJs >= v12
+* NodeJs >= v10
 
 ## Install
 ```bash
