@@ -18,6 +18,8 @@ Slick.ProductView = function(options) {
   }
 
   this.render = function(product) {
+    const productRatings = _.map(product.ratings, (r) => r.rating);
+    const productAverageRating = _.sum(productRatings) / productRatings.length;
     let productView = `
       <div class="product">
         <div class="d-flex pb-4">
@@ -29,7 +31,7 @@ Slick.ProductView = function(options) {
             <div class="text-muted">${product.description}</div>
             <h4 class="mt-4">$${product.price.toFixed(2)}</h4>
             <div class="product-info d-flex flex-row mt-5 pb-2">
-              <div class="me-2 rating-average">3.8</div>
+              <div class="me-2 rating-average">${productAverageRating.toFixed(1)}</div>
               <div class="rating">
                 <div class="rating-average-stars"></div>
               </div>
@@ -48,25 +50,24 @@ Slick.ProductView = function(options) {
     this.el.append(productView);
 
     this.el.find(".rating-average-stars").starRating({
-      starSize: 20,
+      starSize: 25,
       totalStars: 5,
-      initialRating: 4
+      initialRating: productAverageRating,
+      readOnly: true
     });
 
-    const productRatingListView = new Slick.ProductRatingListView({
-      el: this.el.find('.product-rating-list')
-    });
-    productRatingListView.addRating({
-      rating: 4,
-      text: 'book was full of fluff'
-    });
-    productRatingListView.addRating({
-      rating: 3,
-      text: 'book was fluff'
-    });
-    productRatingListView.addRating({
-      rating: 5,
-      text: 'book was amazing'
-    });
+    if(product.ratings && product.ratings.length) {
+      const productRatingListView = new Slick.ProductRatingListView({
+        el: this.el.find('.product-rating-list')
+      });
+      product.ratings.forEach((rating) => {
+        productRatingListView.addRating({
+          rating: rating.rating,
+          text: rating.comment
+        });
+      });
+    } else {
+      this.el.find('.product-rating-list').html('No ratings were found');
+    }
   }
 };

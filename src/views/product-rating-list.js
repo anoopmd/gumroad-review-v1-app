@@ -18,9 +18,10 @@ Slick.ProductRatingListView = function(options) {
     `;
     this.el.append(row);
     this.el.find(".rating-stars").starRating({
-      starSize: 25,
+      starSize: 20,
       totalStars: 5,
-      initialRating: rating.rating
+      initialRating: rating.rating,
+      readOnly: true
     });
   }
 };
