@@ -1,0 +1,7 @@
+node_modules
+dist
+public
+npm-debug.log
+yarn-error.log
+test/coverage
+.sass-cache
