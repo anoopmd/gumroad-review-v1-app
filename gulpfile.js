@@ -9,12 +9,14 @@ const sass = require('gulp-sass')(require('node-sass'));
 const paths = {
   src: {
     dir: 'src',
-    css: 'src/**/*.scss'
+    css: 'src/**/*.scss',
+    assets: 'assets/**/*'
   },
   dist: {
     dir: 'public',
     css: 'public/css',
-    js: 'public/js'
+    js: 'public/js',
+    assets: 'public/assets'
   }
 };
 
@@ -70,6 +72,12 @@ gulp.task('sass', function () {
     .pipe(connect.reload());
 });
 
+// move assets
+gulp.task('assets', () => {
+  gulp.src(paths.src.assets)
+    .pipe(gulp.dest(paths.dist.assets));
+});
+
 // start test server and livereload
 gulp.task('connect', () => {
   connect.server({
@@ -88,7 +96,7 @@ gulp.task('watch', function () {
 
 // build
 gulp.task('build', ['clean'], () => {
-  gulp.start('index', 'app', 'sass', 'vendor');
+  gulp.start('index', 'app', 'sass', 'assets', 'vendor');
 });
 
 // default task

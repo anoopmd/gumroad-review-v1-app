@@ -1,5 +1,5 @@
-# Gumroad Review App V1
-UI for the Gumroad Review App V1
+# Slick Review App V1
+UI for the Slick Review App V1
 
 ## Dependencies
 * Npm >= v6

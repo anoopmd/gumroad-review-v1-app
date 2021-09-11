@@ -11,19 +11,54 @@
     <link rel="stylesheet" href="css/index.css"/>
   </head>
   <body>
-    <main class="root">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+          <img src="assets/images/logo-icon.svg" width="32px" class="logo-icon me-1"/>
+          <img src="assets/images/logo-text.svg" width="72px" class="logo-text me-2"/>
+        </a>
+        <button class="navbar-toggler" type="button">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item me-4">
+              <a class="nav-link active" aria-current="page" href="#">Discover</a>
+            </li>
+            <li class="nav-item me-4">
+              <a class="nav-link" href="#">Blog</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Features</a>
+            </li>
+          </ul>
+          <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-dark" type="submit">Search</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+    <div class="root container-fluid">
       <div class="product">
-        <h2 class="title">The Minimalist Entrepreneur</h2>
-        <div class="product-info d-flex flex-row pt-2 pb-2">
-          <h3 class="me-2">3.8</h3>
-          <div class="rating">
-            <div class="my-rating"></div>
+        <div class="d-flex pb-4">
+          <div>
+            <img src="assets/images/the-minimalist-entrepreneur.jpg" width="200px"/>
           </div>
-          <div class="flex-fill d-flex justify-content-end">
-            <button type="button" class="btn btn-outline-dark">Add Review</button>
+          <div class="flex-fill ms-4">
+            <h2 class="title">The Minimalist Entrepreneur</h2>
+            <div class="text-muted">How Great Founders Do More with Less</div>
+            <div class="product-info d-flex flex-row mt-4 pb-2">
+              <div class="me-2 rating-average">3.8</div>
+              <div class="rating">
+                <div class="my-rating"></div>
+              </div>
+            </div>
+            <div class="mt-5">
+              <button type="button" class="btn btn-outline-dark">Add Review</button>
+            </div>
           </div>
         </div>
-
         <hr/>
 
         <h6 class="mt-4 fw-bold">Reviews</h6>
@@ -53,7 +88,7 @@
         text: 'book was amazing'
       });
       $(".my-rating").starRating({
-        starSize: 25,
+        starSize: 20,
         totalStars: 5,
         initialRating: 4
       });
