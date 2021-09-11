@@ -24,11 +24,11 @@ Slick.ProductView = function(options) {
     let productAverageRating = _.sum(productRatings) / productRatings.length;
     let productView = `
       <div class="product">
-        <div class="d-flex pb-4">
-          <div>
+        <div class="d-flex flex-column flex-sm-row">
+          <div class="me-4 pb-4">
             <img src="assets/images/${product.image_url}" width="200px"/>
           </div>
-          <div class="flex-fill ms-4">
+          <div class="flex-fill pb-4">
             <h2 class="title">${product.name}</h2>
             <div class="text-muted">${product.description}</div>
             <h4 class="mt-4">$${product.price.toFixed(2)}</h4>
