@@ -4,6 +4,7 @@ Slick.ProductView = function(options) {
   this.options = options;
 
   this.el = $('#' + options.id);
+  this.productRatingListView = null;
   this.model = new Slick.ProductModel();
 
   this.fetchById = function(id) {
@@ -18,8 +19,9 @@ Slick.ProductView = function(options) {
   }
 
   this.render = function(product) {
+    const self = this;
     const productRatings = _.map(product.ratings, (r) => r.rating);
-    const productAverageRating = _.sum(productRatings) / productRatings.length;
+    let productAverageRating = _.sum(productRatings) / productRatings.length;
     let productView = `
       <div class="product">
         <div class="d-flex pb-4">
@@ -53,15 +55,16 @@ Slick.ProductView = function(options) {
       starSize: 25,
       totalStars: 5,
       initialRating: productAverageRating,
+      ratedColors: ['#ffa700', '#ffa700', '#ffa700', '#ffa700', '#ffa700'],
       readOnly: true
     });
 
     if(product.ratings && product.ratings.length) {
-      const productRatingListView = new Slick.ProductRatingListView({
+      this.productRatingListView = new Slick.ProductRatingListView({
         el: this.el.find('.product-rating-list')
       });
       product.ratings.forEach((rating) => {
-        productRatingListView.addRating({
+        this.productRatingListView.addRating({
           rating: rating.rating,
           text: rating.review
         });
@@ -71,7 +74,14 @@ Slick.ProductView = function(options) {
     }
 
     const onNewRating = (newRating) => {
-      console.log(newRating);
+      productRatings.push(newRating.rating);
+      let productAverageRating = _.sum(productRatings) / productRatings.length;
+      self.el.find(".rating-average").text(productAverageRating.toFixed(1));
+      self.el.find(".rating-average-stars").starRating('setRating', productAverageRating);
+      self.productRatingListView.addRating({
+        rating: newRating.rating,
+        text: newRating.review
+      });
     };
 
     this.el.find("button.add-review").click(function() {
