@@ -1,0 +1,19 @@
+.product {
+  .title {
+    font-weight: 600;
+  }
+
+  .rating-average {
+    font-weight: 600;
+    position: relative;
+    top: 3px;
+  }
+
+  .product-info {
+    align-items: center;
+
+    h3 {
+      margin-bottom: 0;
+    }
+  }
+}
