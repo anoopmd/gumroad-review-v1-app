@@ -17,6 +17,15 @@ npm start
 
 # continuous incremental rebuild + web server + proxy ws calls
 ./node_modules/.bin/gulp start:proxy --proxy 'http://localhost:9000'
+
+# build
+npm run build
+
+# docker build image
+docker build -t slick-app .
+
+# docker run container
+docker run -d -p 9000:80 slick-app
 ```
 
 ## Backend
