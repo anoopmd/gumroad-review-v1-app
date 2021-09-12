@@ -6,6 +6,7 @@ Slick.ProductView = function(options) {
   this.el = $('#' + options.id);
   this.productRatingListView = null;
   this.model = new Slick.ProductModel();
+  this.product = {};
 
   this.fetchById = function(id) {
     let self = this;
@@ -13,6 +14,7 @@ Slick.ProductView = function(options) {
     this.model
       .getProductById(id)
       .then(function(product) {
+        self.product = product;
         self.render(product)
       })
       .catch((err) => console.log(err));
@@ -20,8 +22,7 @@ Slick.ProductView = function(options) {
 
   this.render = function(product) {
     const self = this;
-    const productRatings = _.map(product.ratings, (r) => r.rating);
-    let productAverageRating = _.sum(productRatings) / productRatings.length;
+    let productAverageRating = this.getAverageRating();
     let productView = `
       <div class="product">
         <div class="d-flex flex-column flex-sm-row">
@@ -59,11 +60,16 @@ Slick.ProductView = function(options) {
       readOnly: true
     });
 
-    if(product.ratings && product.ratings.length) {
+    this.renderRatings();
+    this.attachEvents();
+  }
+
+  this.renderRatings = function() {
+    if(this.product.ratings && this.product.ratings.length) {
       this.productRatingListView = new Slick.ProductRatingListView({
         el: this.el.find('.product-rating-list')
       });
-      product.ratings.forEach((rating) => {
+      this.product.ratings.forEach((rating) => {
         this.productRatingListView.addRating({
           rating: rating.rating,
           text: rating.review
@@ -72,25 +78,33 @@ Slick.ProductView = function(options) {
     } else {
       this.el.find('.product-rating-list').html('No ratings were found');
     }
+  }
 
-    const onNewRating = (newRating) => {
-      productRatings.push(newRating.rating);
-      let productAverageRating = _.sum(productRatings) / productRatings.length;
-      self.el.find(".rating-average").text(productAverageRating.toFixed(1));
-      self.el.find(".rating-average-stars").starRating('setRating', productAverageRating);
-      self.productRatingListView.addRating({
-        rating: newRating.rating,
-        text: newRating.review
-      });
-    };
-
+  this.attachEvents = function() {
+    const self = this;
     this.el.find("button.add-review").click(function() {
       const productAddRatingView = new Slick.ProductAddRatingView({
-        productId: product.id,
-        onNewRating: onNewRating
+        productId: self.product.id,
+        onNewRating: self.updateRatings.bind(self)
       });
-      console.log('Clicked');
       productAddRatingView.render();
     });
+  }
+
+  this.updateRatings = function(newRating) {
+    this.product.ratings.push(newRating);
+    let productAverageRating = this.getAverageRating();
+    this.el.find(".rating-average").text(productAverageRating.toFixed(1));
+    this.el.find(".rating-average-stars").starRating('setRating', productAverageRating);
+    this.productRatingListView.addRating({
+      rating: newRating.rating,
+      text: newRating.review
+    });
+  }
+
+  this.getAverageRating = function() {
+    const productRatings = _.map(this.product.ratings, (r) => r.rating);
+  
+    return _.sum(productRatings) / productRatings.length;
   }
 };
