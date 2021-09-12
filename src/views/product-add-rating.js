@@ -3,13 +3,14 @@ window.Slick = window.Slick || {};
 Slick.ProductAddRatingView = function(options) {
   this.options = options;
   this.model = new Slick.ProductModel()
+  this.$modal = null;
+  this.formData = {
+    rating: 0,
+    review: ''
+  };
 
   this.render = function() {
     const self = this;
-    const formData = {
-      rating: 0,
-      review: ''
-    };
     const modalHtml = `
       <div class="modal add-product-review-modal" tabindex="-1">
         <div class="modal-dialog">
@@ -37,30 +38,9 @@ Slick.ProductAddRatingView = function(options) {
       </div>
     `;
     let $modal = $(modalHtml);
+    this.$modal = $modal;
     $('body').append($modal);
     $modal.css("display", "block");
-
-    $errorMessage = $(".error-message");
-    $submitBtn = $("button.submit-review");
-
-    const onRatingUpdate = (rating) => {
-      formData.rating = rating;
-      updateSubmitButtonState();
-    }
-
-    const onReviewUpdate = (review) => {
-      formData.review = review || '';
-      formData.review = formData.review.trim();
-      updateSubmitButtonState();
-    }
-
-    const updateSubmitButtonState = () => {
-      if(formData.rating > 0 && formData.review.length) {
-        $submitBtn.attr("disabled", false);
-      } else {
-        $submitBtn.attr("disabled", true);
-      }
-    }
 
     $modal.find(".rating-stars").starRating({
       starSize: 25,
@@ -68,46 +48,74 @@ Slick.ProductAddRatingView = function(options) {
       initialRating: 0,
       useFullStars: true,
       ratedColors: ['#ffa700', '#ffa700', '#ffa700', '#ffa700', '#ffa700'],
-      callback: function(currentRating, $el){
-        onRatingUpdate(currentRating);
+      callback: function(currentRating){
+        self.onRatingFieldChange(currentRating);
       },
       disableAfterRate: false,
-      onHover: function(currentIndex, currentRating, $el){
+      onHover: function(currentIndex){
         $modal.find('.live-rating').text(currentIndex);
       },
-      onLeave: function(currentIndex, currentRating, $el){
+      onLeave: function(currentIndex){
         $modal.find('.live-rating').text(currentIndex);
       }
     });
 
-    $modal.find(".btn-close").click(function() {
-      $modal.remove();
+    this.attachEvents();
+  }
+
+  this.attachEvents = function() {
+    const self = this;
+    $submitBtn = $("button.submit-review");
+    $errorMessage = $(".error-message");
+
+    this.$modal.find(".btn-close").click(function() {
+      self.$modal.remove();
     });
 
-    $modal.find("textarea").on('change keyup paste', function(e) {
+    this.$modal.find("textarea").on('change keyup paste', function(e) {
       let review = $(this).val();
-      onReviewUpdate(review);
+      self.onReviewFieldChange(review);
     });
 
     $submitBtn.click(function() {
-      $modal.find(".spinner-container").addClass("spinner");
+      self.$modal.find(".spinner-container").addClass("spinner");
       $submitBtn.attr("disabled", true);
       $submitBtn.text("Submiting");
       $errorMessage.hide();
 
       self.model
-        .addRating(self.options.productId, formData.rating, formData.review)
+        .addRating(self.options.productId, self.formData.rating, self.formData.review)
         .then((data) => {
           self.options.onNewRating(data);
-          $modal.remove();
+          self.$modal.remove();
         })
         .catch((err) => {
           console.log(err);
           $submitBtn.attr("disabled", false);
           $submitBtn.text("Submit Review");
           $errorMessage.show();
-          $modal.find(".spinner-container").removeClass("spinner");
+          self.$modal.find(".spinner-container").removeClass("spinner");
         });
     });
+  }
+
+  this.onRatingFieldChange = function(rating) {
+    this.formData.rating = rating;
+    this.updateSubmitButtonState();
+  }
+
+  this.onReviewFieldChange = function(review) {
+    this.formData.review = review || '';
+    this.formData.review = this.formData.review.trim();
+    this.updateSubmitButtonState();
+  }
+
+  this.updateSubmitButtonState = function() {
+    $submitBtn = $("button.submit-review");
+    if(this.formData.rating > 0 && this.formData.review.length) {
+      $submitBtn.attr("disabled", false);
+    } else {
+      $submitBtn.attr("disabled", true);
+    }
   }
 };
