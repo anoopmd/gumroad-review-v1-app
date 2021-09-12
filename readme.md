@@ -29,5 +29,13 @@ The backend services repo is located [here](https://github.com/anoopmd/slick-rev
 - [ ] Add lint check
 - [ ] Minify build for production
 
+## Thanks
+Made possible by
+- [jQuery](https://jquery.com/) - AJAX and DOM manipulations
+- [Bootstrap 5](https://getbootstrap.com/) - CSS Styles
+- [Sass](https://sass-lang.com/) - CSS PreProcessor
+- [Gulp](https://gulpjs.com/) - Task Runner
+- [SVG Star Rating](https://github.com/nashio/star-rating-svg) - Star Rating Widget
+
 ### License
 [MIT](readme.md)
