@@ -22,12 +22,12 @@ npm start
 ## Backend
 The backend services repo is located [here](https://github.com/anoopmd/slick-review-backend)
 
-## Todo / Improvements that can be made further
-[] Unit tests
-[] Integration tests
-[] Move templates to a seperate folder
-[] Add lint check
-[] Minify build for production
+## Todo / Suggested Improvements
+- [ ] Unit tests
+- [ ] Integration tests
+- [ ] Move templates to a seperate folder
+- [ ] Add lint check
+- [ ] Minify build for production
 
 ### License
 [MIT](readme.md)
