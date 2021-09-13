@@ -14,3 +14,8 @@ Then(/^I should see the product loaded$/, function() {
   expect(productPrice).toEqual('$49.00');
 });
 
+Then(/^I click on the add review button in product page$/, () => {
+  let $btn = $('.product .btn.add-review');
+  $btn.click();
+});
+

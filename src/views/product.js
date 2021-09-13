@@ -82,7 +82,7 @@ Slick.ProductView = function(options) {
 
   this.attachEvents = function() {
     const self = this;
-    this.el.find("button.add-review").click(function() {
+    this.el.find("button.add-review").click(function(e) {
       const productAddRatingView = new Slick.ProductAddRatingView({
         productId: self.product.id,
         onNewRating: self.updateRatings.bind(self)

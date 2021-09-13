@@ -1,4 +1,4 @@
-Feature: Check App title
+Feature: View product
     Background:
         Given I launch the app
 

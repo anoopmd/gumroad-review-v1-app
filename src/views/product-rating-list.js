@@ -11,7 +11,7 @@ Slick.ProductRatingListView = function(options) {
           <div class="rating-stars"></div>
         </div>
         <div class="fw-bold me-2">${rating.rating}</div>
-        <div class="text-secondary">
+        <div class="text-secondary review">
           ${rating.text}
         </div>
       </div>
