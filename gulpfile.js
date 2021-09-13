@@ -122,15 +122,21 @@ gulp.task('watch', function () {
 
 gulp.task('app-bundle', function() {
   let appBundler = browserify(['./src/main.js']);
-  let libs = ['jquery', 'lodash'];
+  let libs = ['jquery', 'lodash', 'react', 'react-dom'];
 
   libs.forEach(function(lib) {
     appBundler.external(lib);
   });
 
   appBundler
-    .transform(babelify)
+    .transform(babelify.configure({
+      presets: ["@babel/preset-react"]
+    }))
     .bundle()
+    .on('error', (err)=>{
+      console.log('App Bundler error');
+      console.log(err);
+    })
     .pipe(source('app-bundle.js'))
     .pipe(gulp.dest(paths.dist.js))
     .pipe(connect.reload());
@@ -138,7 +144,7 @@ gulp.task('app-bundle', function() {
 
 gulp.task('vendor-bundle', function() {
   let vendorBundler = browserify();
-  let libs = ['jquery', 'lodash'];
+  let libs = ['jquery', 'lodash', 'react', 'react-dom'];
 
   libs.forEach(function(lib) {
     vendorBundler.require(lib);
