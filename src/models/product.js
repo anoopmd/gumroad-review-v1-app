@@ -1,6 +1,6 @@
-window.Slick = window.Slick || {};
+const $ = require('jquery');
 
-Slick.ProductModel = function() {
+const ProductModel = function() {
   this.getProductById = function(id) {
     return new Promise((resolve, reject) => {
       const request = $.ajax({
@@ -42,3 +42,5 @@ Slick.ProductModel = function() {
     });
   }
 };
+
+module.exports = ProductModel;

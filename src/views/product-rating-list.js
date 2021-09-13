@@ -1,6 +1,6 @@
-window.Slick = window.Slick || {};
+const $ = require('jquery');
 
-Slick.ProductRatingListView = function(options) {
+const ProductRatingListView = function(options) {
   this.options = options;
   this.el = options.el || $('#' + options.id);
 
@@ -25,3 +25,5 @@ Slick.ProductRatingListView = function(options) {
     });
   }
 };
+
+module.exports = ProductRatingListView;

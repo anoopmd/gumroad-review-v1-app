@@ -8,6 +8,10 @@ const proxy = require('http-proxy-middleware');
 const args = require('yargs').argv;
 const sass = require('gulp-sass')(require('node-sass'));
 
+const browserify = require('browserify');
+const babelify = require('babelify');
+const source = require('vinyl-source-stream');
+
 const paths = {
   src: {
     dir: 'src',
@@ -29,27 +33,28 @@ gulp.task('clean', () => {
 });
 
 // vendor files
-gulp.task('vendor', function() {
-  let vendorJsFiles = [
-    'node_modules/lodash/lodash.min.js',
-    'node_modules/jquery/dist/jquery.min.js',
-    'node_modules/star-rating-svg/src/jquery.star-rating-svg.js'
-  ];
-
+gulp.task('vendor-css', function() {
   let vendorCssFiles = [
     'node_modules/bootstrap/dist/css/bootstrap.min.css',
     'node_modules/star-rating-svg/src/css/star-rating-svg.css'
   ];
 
-  // build vendor js files
-  gulp.src(vendorJsFiles)
-    .pipe(concat('vendor.js'))
-    .pipe(gulp.dest(paths.dist.js));
-
   // build vendor css files
   gulp.src(vendorCssFiles)
     .pipe(concat('vendor.css'))
     .pipe(gulp.dest(paths.dist.css));
+});
+
+// vendor plugins files (not able to browserify these)
+gulp.task('vendor-plugins', function() {
+  let vendorPluginFiles = [
+    'node_modules/star-rating-svg/src/jquery.star-rating-svg.js'
+  ];
+
+  // build vendor css files
+  gulp.src(vendorPluginFiles)
+    .pipe(concat('vendor-plugins.js'))
+    .pipe(gulp.dest(paths.dist.js));
 });
 
 // copy index to public
@@ -112,12 +117,41 @@ gulp.task('connect-proxy', function(){
 gulp.task('watch', function () {
   gulp.watch(['src/index.html'], ['index']);
   gulp.watch(['src/**/*.scss'], ['sass']);
-  gulp.watch(['src/**/*.js'], ['app']);
+  gulp.watch(['src/**/*.js'], ['app-bundle']);
+});
+
+gulp.task('app-bundle', function() {
+  let appBundler = browserify(['./src/main.js']);
+  let libs = ['jquery', 'lodash'];
+
+  libs.forEach(function(lib) {
+    appBundler.external(lib);
+  });
+
+  appBundler
+    .transform(babelify)
+    .bundle()
+    .pipe(source('app-bundle.js'))
+    .pipe(gulp.dest(paths.dist.js))
+    .pipe(connect.reload());
+});
+
+gulp.task('vendor-bundle', function() {
+  let vendorBundler = browserify();
+  let libs = ['jquery', 'lodash'];
+
+  libs.forEach(function(lib) {
+    vendorBundler.require(lib);
+  });
+
+  vendorBundler.bundle()
+    .pipe(source('vendor-bundle.js'))
+    .pipe(gulp.dest(paths.dist.js));
 });
 
 // build
 gulp.task('build', ['clean'], () => {
-  gulp.start('index', 'app', 'sass', 'assets', 'vendor');
+  gulp.start('index', 'app-bundle', 'sass', 'assets', 'vendor-bundle', 'vendor-css', 'vendor-plugins');
 });
 
 // default task

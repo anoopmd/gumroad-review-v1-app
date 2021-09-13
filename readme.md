@@ -28,6 +28,9 @@ docker build -t slick-app .
 docker run -d -p 9000:80 slick-app
 ```
 
+## E2E Tests using WebdriverIO and Cucumber
+See [here](e2e/readme.md)
+
 ## Backend
 The backend services repo is located [here](https://github.com/anoopmd/slick-review-backend)
 

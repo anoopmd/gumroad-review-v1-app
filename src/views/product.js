@@ -1,15 +1,20 @@
-window.Slick = window.Slick || {};
+const _ = require('lodash');
+const $ = require('jquery');
+const ProductModel = require('../models/product');
+const ProductRatingListView = require('./product-rating-list');
+const ProductAddRatingView = require('./product-add-rating');
 
-Slick.ProductView = function(options) {
+const ProductView = function(options) {
   this.options = options;
 
   this.el = $('#' + options.id);
   this.productRatingListView = null;
-  this.model = new Slick.ProductModel();
+  this.model = new ProductModel();
   this.product = {};
 
   this.fetchById = function(id) {
     let self = this;
+    console.log("Fetching");
 
     this.model
       .getProductById(id)
@@ -66,7 +71,7 @@ Slick.ProductView = function(options) {
 
   this.renderRatings = function() {
     if(this.product.ratings && this.product.ratings.length) {
-      this.productRatingListView = new Slick.ProductRatingListView({
+      this.productRatingListView = new ProductRatingListView({
         el: this.el.find('.product-rating-list')
       });
       this.product.ratings.forEach((rating) => {
@@ -83,7 +88,7 @@ Slick.ProductView = function(options) {
   this.attachEvents = function() {
     const self = this;
     this.el.find("button.add-review").click(function(e) {
-      const productAddRatingView = new Slick.ProductAddRatingView({
+      const productAddRatingView = new ProductAddRatingView({
         productId: self.product.id,
         onNewRating: self.updateRatings.bind(self)
       });
@@ -108,3 +113,5 @@ Slick.ProductView = function(options) {
     return _.sum(productRatings) / productRatings.length;
   }
 };
+
+module.exports = ProductView;

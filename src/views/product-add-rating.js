@@ -1,8 +1,9 @@
-window.Slick = window.Slick || {};
+const $ = require('jquery');
+const ProductModel = require('../models/product');
 
-Slick.ProductAddRatingView = function(options) {
+const ProductAddRatingView = function(options) {
   this.options = options;
-  this.model = new Slick.ProductModel()
+  this.model = new ProductModel()
   this.$modal = null;
   this.formData = {
     rating: 0,
@@ -119,3 +120,5 @@ Slick.ProductAddRatingView = function(options) {
     }
   }
 };
+
+module.exports = ProductAddRatingView;
