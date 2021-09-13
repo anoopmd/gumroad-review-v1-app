@@ -1,14 +1,15 @@
 const _ = require('lodash');
 const $ = require('jquery');
 const ProductModel = require('../models/product');
-const ProductRatingListView = require('./product-rating-list');
+const React = require('react');
+const ReactDOM = require('react-dom');
+const ProductRatingList = require('../components/ProductRatingList');
 const ProductAddRatingView = require('./product-add-rating');
 
 const ProductView = function(options) {
   this.options = options;
 
   this.el = $('#' + options.id);
-  this.productRatingListView = null;
   this.model = new ProductModel();
   this.product = {};
 
@@ -52,7 +53,7 @@ const ProductView = function(options) {
         <hr/>
 
         <h6 class="mt-4 fw-bold">Reviews</h6>
-        <div class="product-rating-list"></div>
+        <div class="product-rating-list-container"></div>
       </div>
     `;
     this.el.append(productView);
@@ -70,19 +71,10 @@ const ProductView = function(options) {
   }
 
   this.renderRatings = function() {
-    if(this.product.ratings && this.product.ratings.length) {
-      this.productRatingListView = new ProductRatingListView({
-        el: this.el.find('.product-rating-list')
-      });
-      this.product.ratings.forEach((rating) => {
-        this.productRatingListView.addRating({
-          rating: rating.rating,
-          text: rating.review
-        });
-      });
-    } else {
-      this.el.find('.product-rating-list').html('No ratings were found');
-    }
+    let ratingListContainer = this.el.find('.product-rating-list-container');
+    ReactDOM.render(
+      <ProductRatingList ratings={this.product.ratings}/>
+    , ratingListContainer[0]);
   }
 
   this.attachEvents = function() {
@@ -101,10 +93,7 @@ const ProductView = function(options) {
     let productAverageRating = this.getAverageRating();
     this.el.find(".rating-average").text(productAverageRating.toFixed(1));
     this.el.find(".rating-average-stars").starRating('setRating', productAverageRating);
-    this.productRatingListView.addRating({
-      rating: newRating.rating,
-      text: newRating.review
-    });
+    this.renderRatings();
   }
 
   this.getAverageRating = function() {

@@ -122,7 +122,7 @@ gulp.task('watch', function () {
 
 gulp.task('app-bundle', function() {
   let appBundler = browserify(['./src/main.js']);
-  let libs = ['jquery', 'lodash', 'react', 'react-dom'];
+  let libs = ['jquery', 'lodash', 'react', 'react-dom', 'react-stars', 'prop-types'];
 
   libs.forEach(function(lib) {
     appBundler.external(lib);
@@ -144,7 +144,7 @@ gulp.task('app-bundle', function() {
 
 gulp.task('vendor-bundle', function() {
   let vendorBundler = browserify();
-  let libs = ['jquery', 'lodash', 'react', 'react-dom'];
+  let libs = ['jquery', 'lodash', 'react', 'react-dom', 'react-stars', 'prop-types'];
 
   libs.forEach(function(lib) {
     vendorBundler.require(lib);

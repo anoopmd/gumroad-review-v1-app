@@ -7,7 +7,7 @@ const ReactDOM = require('react-dom');
 $(function() {
   let reactNode = document.getElementById('react-node');
   ReactDOM.render(<App/>, reactNode);
-  console.log('load 5');
+  console.log('load 7');
   const productView = new ProductView({
     id: 'product-container'
   });
