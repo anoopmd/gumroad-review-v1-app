@@ -16,7 +16,7 @@ if (!browserConfig) {
 
 exports.config = {
   runner: 'local',
-  specs: ['features/*.feature'],
+  specs: ['features/view-product.feature'],
   maxInstances: 1,
   capabilities: [browserConfig],
   logLevel: 'silent',

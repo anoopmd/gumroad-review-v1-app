@@ -31,8 +31,8 @@ Slick.ProductView = function(options) {
           </div>
           <div class="flex-fill pb-4">
             <h2 class="title">${product.name}</h2>
-            <div class="text-muted">${product.description}</div>
-            <h4 class="mt-4">$${product.price.toFixed(2)}</h4>
+            <div class="text-muted description">${product.description}</div>
+            <h4 class="mt-4 price">$${product.price.toFixed(2)}</h4>
             <div class="product-info d-flex flex-row mt-5 pb-2">
               <div class="me-2 rating-average">${productAverageRating.toFixed(1)}</div>
               <div class="rating">

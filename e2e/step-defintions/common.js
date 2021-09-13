@@ -6,6 +6,6 @@ Given(/^I launch the app$/, function() {
 
 Then(/^I expect that the title is "([^"]*)?"$/, function(expectedTitle) {
   const title = browser.getTitle();
-  assert.equal(title, expectedTitle, `Found title as '${title}', But expected it to be '${expectedTitle}'`);
+  expect(title).toEqual(expectedTitle);
 });
 
