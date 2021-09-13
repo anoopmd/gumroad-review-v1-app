@@ -2,6 +2,10 @@
 UI for the Slick Review App V1.
 
 ![Demo](/assets/images/demo.png "Demo")
+## React Migration Underway
+We are migrating to react. Checkout the branch [react-migration](https://github.com/anoopmd/slick-review-v1-app/tree/react-migration)
+We have also added some [e2e](https://github.com/anoopmd/slick-review-v1-app/tree/react-migration/e2e) tests there so that we don't break production as we iteratively refactor.
+
 ## Dependencies
 * Npm >= v6
 * NodeJs >= v10
