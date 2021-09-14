@@ -1,5 +1,5 @@
 # Slick Review App V1
-UI for the Slick Review App V1.
+UI for the Slick Review App V1 - Code challenge that I did while interviewing for Gumroad.
 
 ![Demo](/assets/images/demo.png "Demo")
 ## React Migration Underway
